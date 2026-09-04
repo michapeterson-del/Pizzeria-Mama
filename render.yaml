@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: pizzeria-mama
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: pizzeria-mama-data
+      mountPath: /var/data
+      sizeGB: 1

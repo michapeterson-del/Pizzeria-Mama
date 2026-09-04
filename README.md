@@ -86,6 +86,30 @@ vServer). Wichtig für den Live-Betrieb:
 4. Optional: HTTPS aktivieren (die meisten Hosting-Anbieter machen das
    automatisch).
 
+### Deployment auf Render
+
+Das Repo enthält eine fertige [`render.yaml`](render.yaml) (Render
+"Blueprint"), die Web-Service, dauerhafte Festplatte für die Bestellungen
+und `SESSION_SECRET` automatisch einrichtet:
+
+1. Bei [render.com](https://render.com) einloggen (oder Account anlegen).
+2. **New +** → **Blueprint** → dieses GitHub-Repo
+   (`michapeterson-del/Pizzeria-Mama`) auswählen. Render erkennt die
+   `render.yaml` automatisch.
+3. Beim Anlegen nach `ADMIN_PASSWORD` fragen lassen und ein eigenes,
+   sicheres Passwort eintragen (wird nicht automatisch generiert, da du
+   es dir merken musst). `SESSION_SECRET` erzeugt Render selbst zufällig.
+4. **Apply** klicken – Render baut und startet den Dienst automatisch.
+   Bestellungen landen dank der eingerichteten Persistent Disk
+   (`/var/data`) dauerhaft und überstehen Neustarts/Deploys.
+5. Nach dem ersten Deploy ist die Seite unter der von Render vergebenen
+   `*.onrender.com`-Adresse erreichbar; optional eine eigene Domain unter
+   **Settings → Custom Domains** hinterlegen.
+
+Hinweis: Auf dem kostenlosen Render-Plan schläft der Dienst nach
+Inaktivität ein und der erste Aufruf danach dauert einige Sekunden länger
+("Cold Start") – für den Live-Betrieb lohnt sich ggf. ein bezahlter Plan.
+
 ## Mögliche Erweiterungen (nicht enthalten)
 
 - SMS/WhatsApp-Benachrichtigung an den Kunden, sobald die Bestellung
