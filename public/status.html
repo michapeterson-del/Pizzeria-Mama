@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bestellstatus – Pizzeria Mama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <style>
   .status-card {
@@ -44,7 +47,7 @@
   }
   .code-note b { font-size: 1rem; letter-spacing: 1px; color: var(--orange-dark); }
   .item-note { font-size: 0.78rem; color: #96631a; font-style: italic; display:block; }
-  .item-size { font-size: 0.78rem; color: #2c6b1f; font-weight: 600; display:block; }
+  .item-sauce { font-size: 0.78rem; color: #2c6b1f; font-weight: 600; display:block; }
   .btn-cancel-order {
     width: 100%;
     margin-top: 16px;
@@ -156,7 +159,7 @@ function render(order) {
   const lines = document.getElementById('rLines');
   lines.innerHTML = order.items
     .map(
-      (it) => `<div><span>${it.qty} × ${it.name}${it.size ? `<span class="item-size">📏 ${it.size}</span>` : ''}${it.note ? `<span class="item-note">📝 ${it.note}</span>` : ''}</span><span>${money(it.price * it.qty)}</span></div>`
+      (it) => `<div><span>${it.qty} × ${it.name}${it.sauce ? `<span class="item-sauce">🥫 ${it.sauce}</span>` : ''}${it.note ? `<span class="item-note">📝 ${it.note}</span>` : ''}</span><span>${money(it.price * it.qty)}</span></div>`
     )
     .join('') + `<div style="font-weight:700;border-top:2px solid #333;margin-top:6px;padding-top:8px"><span>Gesamt</span><span>${money(order.total)}</span></div>`;
 

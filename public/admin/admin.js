@@ -145,7 +145,7 @@ function orderCard(o) {
   const itemsHtml = o.items
     .map(
       (it) => `<div>
-        <span>${it.qty} × ${it.name}${it.size ? `<br><span class="item-size">📏 ${it.size}</span>` : ''}${it.note ? `<br><span class="item-note">📝 ${it.note}</span>` : ''}</span>
+        <span>${it.qty} × ${it.name}${it.sauce ? `<br><span class="item-sauce">🥫 ${it.sauce}</span>` : ''}${it.note ? `<br><span class="item-note">📝 ${it.note}</span>` : ''}</span>
         <span>${money(it.price * it.qty)}</span>
       </div>`
     )

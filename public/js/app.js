@@ -1,28 +1,28 @@
 const state = {
   menu: [],
-  cart: new Map(), // cartKey(name, size, note) -> { name, price, qty, note, size }
-  itemModal: { item: null, qty: 1, size: '', note: '' }
+  cart: new Map(), // cartKey(name, sauce, note) -> { name, price, qty, note, sauce }
+  itemModal: { item: null, qty: 1, sauce: '', note: '' }
 };
 
-function cartKey(name, size, note) {
-  return `${name}__${size || ''}__${note || ''}`;
+function cartKey(name, sauce, note) {
+  return `${name}__${sauce || ''}__${note || ''}`;
 }
 
-function addToCart(item, size, price, qty, note) {
-  const key = cartKey(item.name, size, note);
+function addToCart(item, sauce, qty, note) {
+  const key = cartKey(item.name, sauce, note);
   const existing = state.cart.get(key);
   if (existing) {
     existing.qty += qty;
   } else {
-    state.cart.set(key, { name: item.name, price, qty, note: note || '', size: size || '' });
+    state.cart.set(key, { name: item.name, price: item.price, qty, note: note || '', sauce: sauce || '' });
   }
 }
 
 const CATEGORY_ICONS = {
   'Vorspeisen': '🧆',
   'Salate': '🥗',
-  'Pizza Klassiker': '🍕',
-  'Pizza Spezialitäten': '🍕',
+  'Pizza Klassiker (Ø 20/26 cm)': '🍕',
+  'Pizza Spezialitäten (Ø 25/30 cm)': '🍕',
   'Türkische Pizza': '🫓',
   'Drehspießfleisch': '🥙',
   'Drehspießfleisch-Teller': '🍽️',
@@ -36,15 +36,6 @@ function money(n) {
 
 function escapeAttr(s) {
   return s.replace(/"/g, '&quot;');
-}
-
-function itemBasePrice(item) {
-  return item.sizes ? item.sizes[0].price : item.price;
-}
-
-function itemPriceLabel(item) {
-  if (item.sizes) return item.sizes.map((s) => money(s.price)).join(' / ');
-  return money(item.price);
 }
 
 async function loadMenu() {
@@ -91,7 +82,7 @@ function renderPopular() {
       </div>
       <div class="body">
         <div class="pname">${item.name}</div>
-        <div class="pprice">${itemPriceLabel(item)}</div>
+        <div class="pprice">${money(item.price)}</div>
         <button class="btn-add-mini">Zum Warenkorb hinzufügen</button>
       </div>
     `;
@@ -117,23 +108,15 @@ function renderMenu() {
     const h2 = document.createElement('h2');
     h2.innerHTML = `<span class="cat-icon">${CATEGORY_ICONS[cat.category] || '🍴'}</span> ${cat.category}`;
     section.appendChild(h2);
-    if (cat.note) {
-      const note = document.createElement('div');
-      note.className = 'cat-note';
-      note.textContent = cat.note;
-      section.appendChild(note);
-    }
 
     cat.items.forEach((item) => {
       item._category = cat.category;
       const row = document.createElement('div');
       row.className = 'item';
-      const descHtml = item.description ? `<div class="desc">${item.description}</div>` : '';
       row.innerHTML = `
         <div>
           <div class="name">${item.name}</div>
-          ${descHtml}
-          <span class="price">${itemPriceLabel(item)}</span>
+          <span class="price">${money(item.price)}</span>
         </div>
         <div class="controls"></div>
       `;
@@ -146,13 +129,13 @@ function renderMenu() {
   });
 }
 
-// ---------- Artikel-Bottom-Sheet (Menge, Größe, Notiz) ----------
+// ---------- Artikel-Bottom-Sheet (Menge, Soße, Notiz) ----------
 
 function openItemModal(item) {
   state.itemModal = {
     item,
     qty: 1,
-    size: item.sizes ? item.sizes[0].label : '',
+    sauce: item.sauceOptions ? item.sauceOptions[0] : '',
     note: ''
   };
   renderItemModal();
@@ -163,42 +146,32 @@ function closeItemModal() {
   document.getElementById('itemModal').classList.add('hidden');
 }
 
-function currentModalPrice() {
-  const { item, size } = state.itemModal;
-  if (item.sizes) {
-    const variant = item.sizes.find((s) => s.label === size) || item.sizes[0];
-    return variant.price;
-  }
-  return item.price;
-}
-
 function renderItemModal() {
-  const { item, qty, size, note } = state.itemModal;
+  const { item, qty, sauce, note } = state.itemModal;
   document.getElementById('itemModalName').textContent = item.name;
-  document.getElementById('itemModalDesc').textContent = item.description || '';
-  document.getElementById('itemModalPrice').textContent = money(currentModalPrice());
+  document.getElementById('itemModalPrice').textContent = money(item.price);
   document.getElementById('itemModalQty').textContent = qty;
   document.getElementById('itemModalNote').value = note;
 
-  const sizeWrap = document.getElementById('itemModalSizeWrap');
-  const sizeGroup = document.getElementById('itemModalSizes');
-  if (item.sizes) {
-    sizeWrap.classList.remove('hidden');
-    sizeGroup.innerHTML = item.sizes
+  const sauceWrap = document.getElementById('itemModalSauceWrap');
+  const sauceGroup = document.getElementById('itemModalSauces');
+  if (item.sauceOptions) {
+    sauceWrap.classList.remove('hidden');
+    sauceGroup.innerHTML = item.sauceOptions
       .map(
         (s) =>
-          `<button type="button" class="sauce-chip${s.label === size ? ' selected' : ''}" data-size="${escapeAttr(s.label)}">${s.label} · ${money(s.price)}</button>`
+          `<button type="button" class="sauce-chip${s === sauce ? ' selected' : ''}" data-sauce="${escapeAttr(s)}">${s}</button>`
       )
       .join('');
-    sizeGroup.querySelectorAll('.sauce-chip').forEach((chip) => {
+    sauceGroup.querySelectorAll('.sauce-chip').forEach((chip) => {
       chip.onclick = () => {
-        state.itemModal.size = chip.dataset.size;
+        state.itemModal.sauce = chip.dataset.sauce;
         renderItemModal();
       };
     });
   } else {
-    sizeWrap.classList.add('hidden');
-    sizeGroup.innerHTML = '';
+    sauceWrap.classList.add('hidden');
+    sauceGroup.innerHTML = '';
   }
 }
 
@@ -218,8 +191,8 @@ document.getElementById('itemModal').onclick = (e) => {
   if (e.target.id === 'itemModal') closeItemModal();
 };
 document.getElementById('itemModalConfirm').onclick = () => {
-  const { item, qty, size, note } = state.itemModal;
-  addToCart(item, size, currentModalPrice(), qty, note.trim());
+  const { item, qty, sauce, note } = state.itemModal;
+  addToCart(item, sauce, qty, note.trim());
   updateCartBar();
   closeItemModal();
 };
@@ -258,10 +231,10 @@ function renderCartLines() {
   state.cart.forEach((it, key) => {
     const line = document.createElement('div');
     line.className = 'cart-line-block';
-    const sizeTag = it.size ? ` <span class="size-tag">${it.size}</span>` : '';
+    const sauceTag = it.sauce ? ` <span class="sauce-tag">🥫 ${it.sauce}</span>` : '';
     line.innerHTML = `
       <div class="cart-line">
-        <span class="name">${it.qty} × ${it.name}${sizeTag}</span>
+        <span class="name">${it.qty} × ${it.name}${sauceTag}</span>
         <span class="line-total">${money(it.price * it.qty)}</span>
         <button class="remove" aria-label="Entfernen">×</button>
       </div>
@@ -313,7 +286,7 @@ async function submitOrder(e) {
     name: it.name,
     qty: it.qty,
     note: (it.note || '').trim(),
-    size: it.size || ''
+    sauce: it.sauce || ''
   }));
 
   const btn = document.getElementById('submitBtn');

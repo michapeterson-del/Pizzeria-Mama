@@ -51,17 +51,21 @@ Hinweise in `public/img/BILDER-HIER-EINFUEGEN.txt`.
 
 ## Die Speisekarte anpassen
 
-Alle Gerichte und Preise stehen in [`data/menu.json`](data/menu.json).
-Jede Kategorie kann eine optionale `note` (z. B. Hinweise zu Zutaten oder
-Größen) haben. Jeder Artikel hat entweder:
+Alle Gerichte und Preise stehen in [`data/menu.json`](data/menu.json), genau
+wie beim Picknick-Grill-System. Da viele Pizzen und Salate zwei Größen
+(klein/groß) haben, stehen diese als zwei eigenständige Einträge mit
+jeweils festem Preis in der Karte (z. B. `"Margherita mit Gouda-Käse klein"`
+und `"Margherita mit Gouda-Käse groß"`) – kein Kunde kann sich also bei der
+Größe vertun, jede Zeile hat einen eindeutigen Namen und Preis.
 
-- ein festes `"price"` (einzelner Preis), oder
-- ein `"sizes"`-Array mit mehreren Größen, z. B.
-  `"sizes": [{"label": "Klein Ø20cm", "price": 6}, {"label": "Groß Ø26cm", "price": 7}]`
+Jeder Artikel besteht aus `"name"` und `"price"`. Optional:
 
-Optional: `"description"` (Zutatenliste unter dem Namen), `"popular": true`
-(erscheint oben in "Beliebte Gerichte") und `"img": "dateiname.webp"`
-(Foto für die Beliebt-Karte, Datei in `public/img/` ablegen).
+- `"sauceOptions"`: Array mit Soßen zur Auswahl (wie beim Picknick-Grill,
+  z. B. `["Keine Soße", "Ketchup", "Mayo"]`) – aktuell nutzt kein Gericht
+  der Pizzeria-Karte das, kann aber jederzeit ergänzt werden.
+- `"popular": true` – erscheint oben in "Beliebte Gerichte".
+- `"img": "dateiname.webp"` – Foto für die Beliebt-Karte, Datei in
+  `public/img/` ablegen.
 
 Einfach Einträge ändern, hinzufügen oder löschen – die Website übernimmt
 das automatisch. Preise werden serverseitig aus dieser Datei berechnet,

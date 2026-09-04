@@ -15,7 +15,13 @@ const AUTH_MAX_AGE = 1000 * 60 * 60 * 24 * 30; // 30 Tage
 
 const menu = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'menu.json'), 'utf8'));
 const menuByName = new Map();
-menu.forEach((cat) => cat.items.forEach((it) => menuByName.set(it.name, it)));
+const sauceOptionsByName = new Map();
+menu.forEach((cat) =>
+  cat.items.forEach((it) => {
+    menuByName.set(it.name, it.price);
+    if (it.sauceOptions) sauceOptionsByName.set(it.name, it.sauceOptions);
+  })
+);
 
 app.use(express.json());
 
@@ -81,32 +87,17 @@ app.post('/api/orders', (req, res) => {
   // Validate items against the real menu and trust only server-side prices.
   const cleanItems = [];
   for (const raw of items) {
-    const menuItem = menuByName.get(raw.name);
-    if (!menuItem) {
+    const price = menuByName.get(raw.name);
+    const qty = Math.max(1, Math.min(20, parseInt(raw.qty, 10) || 1));
+    if (price === undefined) {
       return res.status(400).json({ error: `Unbekannter Artikel: ${raw.name}` });
     }
-    const qty = Math.max(1, Math.min(20, parseInt(raw.qty, 10) || 1));
-
-    let price;
-    let size = '';
-    if (menuItem.sizes) {
-      const variant = menuItem.sizes.find((s) => s.label === raw.size);
-      if (!variant) {
-        return res.status(400).json({ error: `Bitte wähle eine Größe für ${raw.name}.` });
-      }
-      price = variant.price;
-      size = variant.label;
-    } else {
-      price = menuItem.price;
+    const sauce = (raw.sauce || '').trim().slice(0, 40);
+    const allowedSauces = sauceOptionsByName.get(raw.name);
+    if (sauce && (!allowedSauces || !allowedSauces.includes(sauce))) {
+      return res.status(400).json({ error: `Ungültige Soße für ${raw.name}` });
     }
-
-    cleanItems.push({
-      name: raw.name,
-      price,
-      size,
-      qty,
-      note: (raw.note || '').trim().slice(0, 120)
-    });
+    cleanItems.push({ name: raw.name, price, qty, note: (raw.note || '').trim().slice(0, 120), sauce });
   }
 
   const order = store.createOrder({
