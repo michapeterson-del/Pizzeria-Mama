@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizzeria Mama – Online bestellen</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <h1>🍕 Pizzeria Mama</h1>
+  <div class="tag">Pizza, Drehspieß &amp; mehr – frisch für dich zubereitet</div>
+  <div class="info">
+    <span>📍 Adresse hier eintragen</span>
+    <span>📞 Telefonnummer hier eintragen</span>
+  </div>
+  <div class="status-pill">Zum Mitnehmen – Bestellung online, Bezahlung bei Abholung</div>
+  <a class="status-link" href="status.html">Bestellung verfolgen →</a>
+</header>
+
+<main id="menu"></main>
+
+<div class="cart-bar hidden" id="cartBar">
+  <div class="cart-info">
+    <span id="cartCount">0</span> Artikel · <span class="cart-total" id="cartTotal">0,00 €</span>
+  </div>
+  <button class="btn-primary" id="openCartBtn">Warenkorb ansehen</button>
+</div>
+
+<div class="modal-overlay hidden" id="itemModal">
+  <div class="modal">
+    <h3 id="itemModalName"></h3>
+    <div class="item-modal-desc" id="itemModalDesc"></div>
+    <div class="item-modal-price" id="itemModalPrice"></div>
+
+    <div id="itemModalSizeWrap" class="hidden">
+      <label>Größe</label>
+      <div class="sauce-chip-group" id="itemModalSizes"></div>
+    </div>
+
+    <div class="qty-row">
+      <span>Menge</span>
+      <div class="qty-controls">
+        <button type="button" id="itemModalMinus">−</button>
+        <span class="qty" id="itemModalQty">1</span>
+        <button type="button" id="itemModalPlus">+</button>
+      </div>
+    </div>
+
+    <label for="itemModalNote">Notiz (optional)</label>
+    <input type="text" id="itemModalNote" maxlength="120" placeholder="z. B. ohne Zwiebeln">
+
+    <button type="button" class="btn-full" id="itemModalConfirm">Zum Warenkorb hinzufügen</button>
+    <button type="button" class="btn-secondary" id="itemModalCancel">Abbrechen</button>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="cartModal">
+  <div class="modal">
+    <h3>Dein Warenkorb</h3>
+    <div id="cartLines"></div>
+    <div class="total-row">
+      <span>Gesamt</span>
+      <span id="modalTotal">0,00 €</span>
+    </div>
+
+    <form class="checkout" id="checkoutForm">
+      <label for="customerName">Dein Name *</label>
+      <input type="text" id="customerName" required maxlength="100" placeholder="z. B. Max Mustermann">
+
+      <label for="phone">Telefonnummer *</label>
+      <input type="tel" id="phone" required maxlength="40" placeholder="z. B. 0160 1234567">
+
+      <label for="wishTime">Wunsch-Abholzeit (optional)</label>
+      <input type="time" id="wishTime">
+      <div class="hint">Leer lassen = "So schnell wie möglich". Wir bestätigen dir die tatsächliche Abholzeit, sobald wir deine Bestellung angenommen haben.</div>
+
+      <label for="note">Anmerkung (optional)</label>
+      <textarea id="note" rows="2" maxlength="300" placeholder="z. B. ohne Zwiebeln"></textarea>
+
+      <div class="error-box" id="errorBox"></div>
+
+      <button type="submit" class="btn-full" id="submitBtn">Verbindlich bestellen</button>
+      <button type="button" class="btn-secondary" id="closeCartBtn">Weiter einkaufen</button>
+    </form>
+  </div>
+</div>
+
+<footer class="site">
+  Pizzeria Mama · Adresse hier eintragen · Tel. Telefonnummer hier eintragen<br>
+  Bezahlung bar oder EC bei Abholung vor Ort.
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

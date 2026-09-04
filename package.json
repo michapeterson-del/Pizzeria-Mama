@@ -1,0 +1,24 @@
+{
+  "name": "pizzeria-mama",
+  "version": "1.0.0",
+  "description": "Bestell-Website für die Pizzeria Mama mit Admin-Bereich zur Bestätigung von Abholzeiten",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michapeterson-del/pizzeria-mama.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michapeterson-del/pizzeria-mama/issues"
+  },
+  "homepage": "https://github.com/michapeterson-del/pizzeria-mama#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestellstatus – Pizzeria Mama</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .status-card {
+    max-width: 480px;
+    margin: 24px auto;
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  .big-status {
+    text-align: center;
+    padding: 18px 10px;
+    border-radius: 12px;
+    margin: 16px 0;
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .st-neu { background: #fdf1de; color: #96631a; }
+  .st-bestaetigt { background: #e4f3e0; color: #2c6b1f; }
+  .st-fertig { background: #dff0f7; color: #175e78; }
+  .st-abgeholt { background: #eee; color: #666; }
+  .st-storniert { background: #fbe4e0; color: #a3311a; }
+  .pickup-time { font-size: 1.6rem; }
+  .lookup-form label { display:block; margin-top:10px; font-size:0.85rem; color:var(--gray); font-weight:600; }
+  .lookup-form input { width:100%; padding:10px; border:1px solid #ddd; border-radius:10px; margin-top:4px; }
+  .order-lines { margin-top: 14px; font-size: 0.92rem; }
+  .order-lines div { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #f1e8dc; }
+  a.back { display:block; text-align:center; margin-top:18px; color: var(--orange-dark); }
+  .code-note {
+    text-align: center;
+    background: #f4e9db;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    color: var(--charcoal-2);
+    margin-top: 6px;
+  }
+  .code-note b { font-size: 1rem; letter-spacing: 1px; color: var(--orange-dark); }
+  .item-note { font-size: 0.78rem; color: #96631a; font-style: italic; display:block; }
+  .item-size { font-size: 0.78rem; color: #2c6b1f; font-weight: 600; display:block; }
+  .btn-cancel-order {
+    width: 100%;
+    margin-top: 16px;
+    padding: 11px;
+    background: #fbe4e0;
+    color: #a3311a;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>🍕 Pizzeria Mama</h1>
+  <div class="tag">Bestellstatus</div>
+</header>
+
+<main>
+  <div class="status-card" id="lookupCard">
+    <h3>Bestellung verfolgen</h3>
+    <form class="lookup-form" id="lookupForm">
+      <label for="nr">Bestellnummer</label>
+      <input type="text" id="nr" inputmode="numeric" required placeholder="z. B. 1007">
+      <label for="code">Code (4-stellig, aus deiner Bestätigung)</label>
+      <input type="text" id="code" inputmode="numeric" required maxlength="4" placeholder="z. B. 4821">
+      <button type="submit" class="btn-full">Status anzeigen</button>
+      <div class="error-box" id="lookupError"></div>
+    </form>
+  </div>
+
+  <div class="status-card" id="resultCard" style="display:none">
+    <h3>Bestellung #<span id="rOrderNumber"></span></h3>
+    <div class="code-note">Deine Bestellnummer <b>#<span id="rOrderNumber2"></span></b> und dein Code <b id="rCode"></b> – bitte notieren, falls du die Seite später erneut aufrufen willst.</div>
+    <div class="big-status" id="rStatus"></div>
+    <div id="rExtra"></div>
+    <div class="order-lines" id="rLines"></div>
+    <button type="button" class="btn-cancel-order" id="cancelBtn" style="display:none">Bestellung stornieren</button>
+    <div class="error-box" id="cancelError"></div>
+    <a class="back" href="index.html">← Zurück zur Speisekarte</a>
+  </div>
+</main>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+let currentNr = params.get('nr');
+let currentCode = params.get('code');
+let pollTimer = null;
+
+function money(n) {
+  return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+
+const statusLabels = {
+  neu: { text: '⏳ Deine Bestellung wurde übermittelt und wartet auf Bestätigung …', cls: 'st-neu' },
+  bestaetigt: { text: '✅ Bestätigt! Abholung:', cls: 'st-bestaetigt' },
+  fertig: { text: '🍽️ Fertig! Du kannst dein Essen jetzt abholen.', cls: 'st-fertig' },
+  abgeholt: { text: '👍 Abgeholt – guten Appetit!', cls: 'st-abgeholt' },
+  storniert: { text: '❌ Diese Bestellung wurde storniert. Bitte ruf uns an.', cls: 'st-storniert' }
+};
+
+async function fetchStatus() {
+  const errorBox = document.getElementById('lookupError');
+  errorBox.classList.remove('show');
+  try {
+    const res = await fetch(`/api/orders/lookup?orderNumber=${encodeURIComponent(currentNr)}&code=${encodeURIComponent(currentCode)}`);
+    const data = await res.json();
+    if (!res.ok) {
+      errorBox.textContent = data.error || 'Bestellung nicht gefunden.';
+      errorBox.classList.add('show');
+      document.getElementById('resultCard').style.display = 'none';
+      document.getElementById('lookupCard').style.display = 'block';
+      if (pollTimer) clearInterval(pollTimer);
+      return;
+    }
+    render(data);
+  } catch (e) {
+    errorBox.textContent = 'Verbindung fehlgeschlagen.';
+    errorBox.classList.add('show');
+  }
+}
+
+function render(order) {
+  document.getElementById('lookupCard').style.display = 'none';
+  document.getElementById('resultCard').style.display = 'block';
+  document.getElementById('rOrderNumber').textContent = order.orderNumber;
+  document.getElementById('rOrderNumber2').textContent = order.orderNumber;
+  document.getElementById('rCode').textContent = order.code;
+
+  const info = statusLabels[order.status] || statusLabels.neu;
+  const statusEl = document.getElementById('rStatus');
+  statusEl.className = 'big-status ' + info.cls;
+
+  if (order.status === 'bestaetigt') {
+    const pickupText = order.pickupTime ? `${order.pickupTime} Uhr` : 'So schnell wie möglich';
+    statusEl.innerHTML = `${info.text}<br><span class="pickup-time">${pickupText}</span>`;
+  } else {
+    statusEl.textContent = info.text;
+  }
+
+  const extra = document.getElementById('rExtra');
+  extra.innerHTML = '';
+  if (order.status === 'neu') {
+    const wish = order.wishTime ? `${order.wishTime} Uhr` : 'So schnell wie möglich';
+    extra.innerHTML = `<p style="text-align:center;color:#888">Deine Wunschzeit: ${wish}</p>`;
+  }
+
+  const lines = document.getElementById('rLines');
+  lines.innerHTML = order.items
+    .map(
+      (it) => `<div><span>${it.qty} × ${it.name}${it.size ? `<span class="item-size">📏 ${it.size}</span>` : ''}${it.note ? `<span class="item-note">📝 ${it.note}</span>` : ''}</span><span>${money(it.price * it.qty)}</span></div>`
+    )
+    .join('') + `<div style="font-weight:700;border-top:2px solid #333;margin-top:6px;padding-top:8px"><span>Gesamt</span><span>${money(order.total)}</span></div>`;
+
+  const cancelBtn = document.getElementById('cancelBtn');
+  cancelBtn.style.display = order.status === 'neu' || order.status === 'bestaetigt' ? 'block' : 'none';
+
+  if (pollTimer) clearInterval(pollTimer);
+  if (order.status === 'neu' || order.status === 'bestaetigt') {
+    pollTimer = setInterval(fetchStatus, 6000);
+  }
+}
+
+document.getElementById('cancelBtn').onclick = async () => {
+  const cancelError = document.getElementById('cancelError');
+  cancelError.classList.remove('show');
+  if (!confirm('Bestellung wirklich stornieren?')) return;
+  try {
+    const res = await fetch('/api/orders/cancel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderNumber: currentNr, code: currentCode })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      cancelError.textContent = data.error || 'Stornieren nicht möglich.';
+      cancelError.classList.add('show');
+      return;
+    }
+    render(data);
+  } catch (e) {
+    cancelError.textContent = 'Verbindung fehlgeschlagen.';
+    cancelError.classList.add('show');
+  }
+};
+
+document.getElementById('lookupForm').onsubmit = (e) => {
+  e.preventDefault();
+  currentNr = document.getElementById('nr').value.trim();
+  currentCode = document.getElementById('code').value.trim();
+  fetchStatus();
+};
+
+if (currentNr && currentCode) {
+  fetchStatus();
+} else {
+  const last = localStorage.getItem('lastOrder');
+  if (last) {
+    const parsed = JSON.parse(last);
+    document.getElementById('nr').value = parsed.orderNumber;
+    document.getElementById('code').value = parsed.code;
+  }
+}
+</script>
+</body>
+</html>

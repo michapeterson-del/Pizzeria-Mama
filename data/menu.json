@@ -1,0 +1,238 @@
+[
+  {
+    "category": "Vorspeisen",
+    "items": [
+      { "name": "Pizzabrötchen", "description": "mit Tomatensauce und Käse", "price": 2.5 },
+      { "name": "Börek", "price": 4 },
+      { "name": "Weichkäse", "price": 2 },
+      { "name": "Tzatziki", "price": 2 },
+      { "name": "Oliven", "price": 2 },
+      {
+        "name": "Peperoni",
+        "description": "mit Sauce",
+        "sizes": [
+          { "label": "6 Stück", "price": 2.5 },
+          { "label": "8 Stück", "price": 3.5 }
+        ]
+      },
+      {
+        "name": "Nuggets",
+        "description": "mit Pommes Frites und Sauce",
+        "sizes": [
+          { "label": "6 Stück", "price": 3.5 },
+          { "label": "8 Stück", "price": 4.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Salate",
+    "note": "Zu den Salaten servieren wir Pizzabrötchen, Kräuterbutter und Dressing nach Wahl: Essig/Öl, Joghurt oder Rose-Sauce.",
+    "items": [
+      {
+        "name": "Salat Verde",
+        "description": "grüner Salat, Gurken, Tomaten und Zwiebeln",
+        "sizes": [{ "label": "Klein", "price": 4.5 }, { "label": "Groß", "price": 5.5 }]
+      },
+      {
+        "name": "Salat Verde Spezial",
+        "description": "grüner Salat, Paprika, Formfleischvorderschinken, Thunfisch, Mais, Zwiebeln, Ei und Käse",
+        "sizes": [{ "label": "Klein", "price": 6 }, { "label": "Groß", "price": 7 }]
+      },
+      {
+        "name": "Salat Tonno",
+        "description": "grüner Salat, Paprika, Tomate, Thunfisch, Mais, Zwiebeln, Ei und Käse",
+        "sizes": [{ "label": "Klein", "price": 6 }, { "label": "Groß", "price": 7 }]
+      },
+      {
+        "name": "Salat Capricciosa",
+        "description": "grüner Salat, Paprika, Tomate, Zwiebeln, Oliven, Artischocken, Formfleischvorderschinken, Thunfisch, Ei und Käse",
+        "sizes": [{ "label": "Klein", "price": 6.5 }, { "label": "Groß", "price": 7.5 }]
+      },
+      {
+        "name": "Salat Orientale",
+        "description": "grüner Salat, Tomaten, Gurken, Oliven, Zwiebeln, Petersilie und Weichkäse",
+        "sizes": [{ "label": "Klein", "price": 6 }, { "label": "Groß", "price": 7 }]
+      },
+      {
+        "name": "Salat Mozzarella",
+        "description": "grüner Salat, Tomaten, Gurken, Zwiebeln, Petersilie und Mozzarella",
+        "sizes": [{ "label": "Klein", "price": 6 }, { "label": "Groß", "price": 7 }]
+      },
+      {
+        "name": "Salat Toscana",
+        "description": "grüner Salat, Tomaten, Gurken, Mais, Paprika, Artischocken, Zwiebeln, Ei und Käse",
+        "sizes": [{ "label": "Klein", "price": 6.5 }, { "label": "Groß", "price": 7.5 }]
+      },
+      {
+        "name": "Salat \"Mama\"",
+        "description": "grüner Salat, Tomaten, Gurken, Mais, Krabben, Thunfisch, Mozzarella, Paprika, Zwiebeln und Ei",
+        "sizes": [{ "label": "Klein", "price": 6.5 }, { "label": "Groß", "price": 7.5 }],
+        "popular": true
+      },
+      {
+        "name": "Salat Mista",
+        "description": "grüner Salat, Tomaten, Gurken, Mais und Zwiebeln",
+        "sizes": [{ "label": "Klein", "price": 5.5 }, { "label": "Groß", "price": 6.5 }]
+      },
+      {
+        "name": "Salat Scampi",
+        "description": "grüner Salat, Tomaten, Gurken, Mais, Krabben, Paprika, Peperoni, Zwiebeln und Ei",
+        "sizes": [{ "label": "Klein", "price": 6 }, { "label": "Groß", "price": 7 }]
+      },
+      {
+        "name": "Gemischter Salat",
+        "description": "grüner Salat, Tomaten, Gurken, Krautsalat, Paprika, Peperoni, Zwiebeln und Weichkäse",
+        "sizes": [{ "label": "Klein", "price": 6 }, { "label": "Groß", "price": 7 }]
+      },
+      {
+        "name": "Salat \"Marienheide\"",
+        "description": "grüner Salat, Tomaten, Gurken, Krabben, Paprika, Oliven, Artischocken, Zwiebeln und Ei",
+        "sizes": [{ "label": "Klein", "price": 6.5 }, { "label": "Groß", "price": 7.5 }]
+      },
+      {
+        "name": "Drehspießfleisch Salat",
+        "description": "grüner Salat, Tomaten, Gurken, Drehspießfleisch, Paprika und Ei",
+        "sizes": [{ "label": "Klein", "price": 6.5 }, { "label": "Groß", "price": 8 }]
+      },
+      {
+        "name": "Hawaii Salat",
+        "description": "grüner Salat, Tomaten, Gurken, Ananas, Formfleischvorderschinken, Mais, Paprika, Ei und Käse",
+        "sizes": [{ "label": "Klein", "price": 6 }, { "label": "Groß", "price": 7 }]
+      },
+      {
+        "name": "Salat Pomodore",
+        "description": "grüner Salat, Tomaten, Mozzarella und Käse",
+        "sizes": [{ "label": "Klein", "price": 6 }, { "label": "Groß", "price": 7 }]
+      },
+      {
+        "name": "Salat Quattro Stagioni",
+        "description": "grüner Salat, Tomaten, Gurken, Thunfisch, Salami, Paprika, Artischockenherzen, Ei und Käse",
+        "sizes": [{ "label": "Klein", "price": 6.5 }, { "label": "Groß", "price": 7.5 }]
+      }
+    ]
+  },
+  {
+    "category": "Pizza Klassiker",
+    "note": "Alle Pizzen mit Tomatensauce, Käse und Oregano · Ø 20 cm (klein) / 26 cm (groß) · Extra Zutaten: klein 0,50 € / groß 1,00 €",
+    "items": [
+      { "name": "Margherita", "description": "mit Gouda-Käse", "sizes": [{ "label": "Klein Ø20cm", "price": 5 }, { "label": "Groß Ø26cm", "price": 6 }], "popular": true },
+      { "name": "Funghi", "description": "mit Champignons", "sizes": [{ "label": "Klein Ø20cm", "price": 6 }, { "label": "Groß Ø26cm", "price": 7 }] },
+      { "name": "Salami", "description": "mit Salami", "sizes": [{ "label": "Klein Ø20cm", "price": 6 }, { "label": "Groß Ø26cm", "price": 7 }], "popular": true },
+      { "name": "Prosciutto 1", "description": "mit Formfleischvorderschinken", "sizes": [{ "label": "Klein Ø20cm", "price": 6 }, { "label": "Groß Ø26cm", "price": 7.5 }] },
+      { "name": "Prosciutto 2", "description": "mit Formfleischvorderschinken, Peperoni und Zwiebeln", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Flamingo", "description": "mit Salami, Champignons und Zwiebeln", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Rustica", "description": "mit Salami, Artischocken und Paprika", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Bolognese", "description": "mit Käse", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "\"Germania\"", "description": "mit Spinat, gekochtem Ei und Zwiebeln", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Parma", "description": "mit Salami und Champignons", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Parma 2", "description": "mit Parmaschinken, Mozzarella und Weichkäse", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Milano", "description": "mit Formfleischvorderschinken und Champignons", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Tonno", "description": "mit Thunfisch", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Tonno e Funghi", "description": "mit Thunfisch und Champignons", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Hawaii", "description": "mit Thunfisch und Ananas", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }], "popular": true },
+      { "name": "Amalfi", "description": "mit Thunfisch und Ananas", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Capricciosa", "description": "mit Salami, Sardellen, Kapern, Peperoni, Oliven und Paprika", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Diavolo", "description": "mit Thunfisch, Paprika, Peperoni, Zwiebeln und Knoblauch", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Toscana", "description": "mit Formfleischvorderschinken, Thunfisch, Oliven, Paprika und Champignons", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Boss", "description": "mit Thunfisch und Weichkäse", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Scampi", "description": "mit Krabben und Knoblauch", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Frutti Di Mare", "description": "mit Meeresfrüchten und Knoblauch", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Cosane", "description": "mit Spinat, Knoblauchwurst, Ei und Knoblauch", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Spinaci", "description": "mit Spinat, Weichkäse und Knoblauch", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Romano", "description": "mit Formfleischvorderschinken und Salami", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8 }] },
+      { "name": "Trieste", "description": "mit Formfleischvorderschinken, Salami und Champignons", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "International", "description": "mit Formfleischvorderschinken, Salami, Drehspießfleisch, Thunfisch und Champignons", "sizes": [{ "label": "Klein Ø20cm", "price": 7 }, { "label": "Groß Ø26cm", "price": 9 }] },
+      { "name": "Verdura", "description": "mit Spinat, Krabben, Zwiebeln und Knoblauch", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Garten", "description": "mit Spinat, Spargel, Broccoli und Knoblauch", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] },
+      { "name": "Broccoli", "description": "mit Broccoli, Mozzarella, Zwiebeln und Formfleischvorderschinken", "sizes": [{ "label": "Klein Ø20cm", "price": 6.5 }, { "label": "Groß Ø26cm", "price": 8.5 }] }
+    ]
+  },
+  {
+    "category": "Pizza Spezialitäten",
+    "note": "Alle Pizzen mit Tomatensauce, Käse und Oregano · Ø 25 cm (klein) / 30 cm (groß) · Extra Zutaten: klein 0,50 € / groß 1,00 €",
+    "items": [
+      { "name": "Welat", "description": "mit Salami, Thunfisch und Champignons", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8.5 }] },
+      { "name": "Geppetto", "description": "mit Champignons", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8.5 }] },
+      { "name": "Drehspieß Pizza", "description": "mit Drehspießfleisch", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8 }], "popular": true },
+      { "name": "Pizza \"Mama\"", "description": "mit Drehspießfleisch, Weichkäse, Zwiebeln, Peperoni und Knoblauch", "sizes": [{ "label": "Klein Ø25cm", "price": 7 }, { "label": "Groß Ø30cm", "price": 8.5 }], "popular": true },
+      { "name": "Abruzzo", "description": "mit Salami, Krabben, Paprika, Zwiebeln und Champignons", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8.5 }] },
+      { "name": "Mozzarella", "description": "mit Mozzarella und Tomate", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 7.5 }] },
+      { "name": "Vulcano", "description": "mit Salami, Thunfisch, Peperoni und Knoblauch", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 7.5 }] },
+      { "name": "Ali Baba", "description": "mit türk. Knoblauchwurst, türk. Knoblauchschinken, Champignons, Paprika, Peperoni und Zwiebeln", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8.5 }] },
+      { "name": "Europa", "description": "mit Formfleischvorderschinken, Salami, Thunfisch, Champignons, Kapern, Sardellen, Oliven und Paprika", "sizes": [{ "label": "Klein Ø25cm", "price": 7 }, { "label": "Groß Ø30cm", "price": 8.5 }] },
+      { "name": "Vegetaria", "description": "mit Spinat, Broccoli, Spargel, Artischocken und Champignons", "sizes": [{ "label": "Klein Ø25cm", "price": 7 }, { "label": "Groß Ø30cm", "price": 8.5 }] },
+      { "name": "Orient", "description": "mit Drehspießfleisch, Champignons, Peperoni, Paprika und Zwiebeln", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8 }] },
+      { "name": "Vier Jahreszeiten", "description": "mit Formfleischvorderschinken, Thunfisch, Champignons, Zwiebeln und Ei", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8 }] },
+      { "name": "Americano", "description": "mit Formfleischvorderschinken, Thunfisch, Champignons, Zwiebeln und Paprika", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8 }] },
+      { "name": "Calzone", "description": "mit Drehspießfleisch, Salami, Thunfisch, Champignons, Paprika und Zwiebeln", "price": 8.5 },
+      { "name": "Calzone II", "description": "mit Drehspießfleisch, Champignons und Paprika", "price": 8.5 },
+      { "name": "Türkischer Rinderschinken", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 7.5 }] },
+      { "name": "Türkische Knoblauchwurst", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 7.5 }] },
+      { "name": "Hira", "description": "mit Drehspießfleisch, Peperoni, Tomaten und Mais", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 7.5 }] },
+      { "name": "Käserand", "description": "Spezial-Pizza", "price": 7 },
+      { "name": "\"Big Al\"", "description": "mit Formfleischvorderschinken, Salami, Drehspießfleisch, Mais, Peperoni und Oliven", "sizes": [{ "label": "Klein Ø25cm", "price": 6.5 }, { "label": "Groß Ø30cm", "price": 8.5 }] }
+    ]
+  },
+  {
+    "category": "Türkische Pizza",
+    "note": "Hackfleisch oder Drehspieß",
+    "items": [
+      { "name": "Türkische Pizza 1", "description": "ohne Alles", "price": 2.5 },
+      { "name": "Türkische Pizza 2", "description": "nur mit Drehspießfleisch", "price": 4 },
+      { "name": "Türkische Pizza 3", "description": "mit Salat und Tzatziki", "price": 4.5 },
+      { "name": "Türkische Pizza 4", "description": "mit Salat, Weichkäse und Tzatziki", "price": 5 },
+      { "name": "Türkische Pizza 5", "description": "mit Drehspießfleisch, Salat, Weichkäse, Oliven, Peperoni und Käse", "price": 6 }
+    ]
+  },
+  {
+    "category": "Drehspießfleisch",
+    "note": "Hackfleisch oder Drehspieß · Extras: Mais, Weichkäse, Gouda etc. 0,50 €",
+    "items": [
+      { "name": "Drehspießfleisch Tasche", "description": "mit Salat und Tzatziki", "sizes": [{ "label": "Klein", "price": 3.5 }, { "label": "Groß", "price": 4 }], "popular": true },
+      { "name": "Drehspießfleisch Tasche mit Pommes", "description": "mit Pommes und Tzatziki", "price": 4 },
+      { "name": "Drehspießfleisch Dürüm", "description": "Fladenbrot eingerollt mit Drehspießfleisch, Salat und Tzatziki", "price": 4, "popular": true },
+      { "name": "Salatasche", "description": "mit Salat, Weichkäse und Tzatziki", "price": 4 },
+      { "name": "Pomm-Drehspieß", "description": "mit Drehspießfleisch, Pommes, Tzatziki oder Spezialsauce", "sizes": [{ "label": "Klein", "price": 3.5 }, { "label": "Groß", "price": 4 }] },
+      { "name": "Thunfisch Tasche", "description": "mit Thunfisch, Salat und Tzatziki", "price": 4 }
+    ]
+  },
+  {
+    "category": "Drehspießfleisch-Teller",
+    "note": "Hackfleisch oder Drehspieß · Extras: Mayonnaise oder Ketchup 0,50 €",
+    "items": [
+      { "name": "Drehspieß Teller", "description": "mit Bratkartoffeln, Salat und Tzatziki", "price": 8 },
+      { "name": "Drehspieß Teller mit Pommes", "description": "mit Pommes und Tzatziki", "price": 6.5 },
+      { "name": "Drehspieß Teller 2", "description": "mit Pommes, Salat und Tzatziki", "price": 7.5 },
+      { "name": "Drehspieß Teller 3", "description": "nur Drehspießfleisch und Tzatziki", "price": 7 },
+      { "name": "Drehspieß Teller 4", "description": "mit Drehspießfleisch und Tzatziki", "price": 6.5 }
+    ]
+  },
+  {
+    "category": "Drehspieß überbacken & Kartoffelauflauf",
+    "note": "Drehspieß nach Dönerart überbacken",
+    "items": [
+      { "name": "Drehspieß überbacken – Sahnesauce", "description": "mit Drehspießfleisch und Sahnesauce", "price": 7 },
+      { "name": "Drehspieß überbacken – Tomatensauce", "description": "mit Drehspießfleisch und Tomatensauce", "price": 7 },
+      { "name": "Drehspieß überbacken – Sauce Hollandaise", "description": "mit Drehspießfleisch und Sauce Hollandaise", "price": 8.5 },
+      { "name": "Drehspieß überbacken – Bratkartoffeln", "description": "mit Drehspießfleisch, Bratkartoffeln, Knoblauch, Tomatensauce und Sahnesauce", "price": 7.5 },
+      { "name": "Drehspieß überbacken – Gemüse", "description": "mit Oliven, Peperoni, Champignons und Sahnesauce", "price": 7.5 },
+      { "name": "Drehspieß überbacken – Thunfisch", "description": "mit Drehspießfleisch, Thunfisch, Oliven, Paprika und Tomatensauce", "price": 7.5 },
+      { "name": "Kartoffel überbacken", "description": "mit Speck, Broccoli, Pilzen und Käse", "price": 7.5 },
+      { "name": "Kartoffel überbacken 2", "description": "mit Räucherfleisch, Pilzen, Käse und Sahne", "price": 8 }
+    ]
+  },
+  {
+    "category": "Imbiss Gerichte",
+    "note": "Extra Zutaten: Ketchup oder Mayonnaise 0,50 €",
+    "items": [
+      { "name": "Pommes Frites", "sizes": [{ "label": "Klein", "price": 1.5 }, { "label": "Groß", "price": 2 }] },
+      { "name": "Bratwurst", "price": 2.5 },
+      { "name": "Bratwurst mit Pommes", "price": 3.5 },
+      { "name": "Currywurst", "price": 3 },
+      { "name": "Currywurst mit Pommes", "price": 4 },
+      { "name": "Hamburger", "price": 2.5 },
+      { "name": "Cheeseburger", "price": 3 }
+    ]
+  }
+]

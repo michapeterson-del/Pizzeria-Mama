@@ -1,0 +1,11 @@
+Lege hier Fotos ab, um sie auf der Website zu nutzen, z. B.:
+
+- hero.webp – Hintergrundbild im Kopfbereich der Speisekarte
+  (in public/css/style.css bei "header.site" wieder aktivieren,
+  siehe Kommentar dort)
+- Fotos für einzelne Gerichte, die als "beliebt" markiert werden
+  sollen (in data/menu.json bei einem Artikel "img": "dateiname.webp"
+  eintragen)
+
+Aktuell sind noch keine eigenen Fotos hinterlegt – die Seite
+funktioniert auch ohne, zeigt dann aber nur Emoji-Icons statt Fotos.
