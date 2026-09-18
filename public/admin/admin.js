@@ -1,6 +1,9 @@
 let filter = 'offen';
 let pollTimer = null;
 let knownOrderIds = null; // null = noch nicht initialisiert (erster Ladevorgang alarmiert nicht)
+let requestSeq = 0; // verhindert, dass eine spät ankommende alte Antwort eine neuere überschreibt
+let lastOrders = [];
+let lastOrdersJson = null;
 let audioCtx = null;
 const originalTitle = document.title;
 let titleFlashTimer = null;
@@ -84,12 +87,18 @@ async function checkSession() {
 }
 
 async function loadOrders() {
+  // Reihenfolge sichern: Wenn diese Antwort ankommt, nachdem schon eine
+  // neuere Anfrage gestartet wurde (z. B. weil "Bestätigen" währenddessen
+  // geklickt wurde), ist sie veraltet und darf den frischeren Stand nicht
+  // mehr überschreiben.
+  const seq = ++requestSeq;
   const res = await fetch('/admin/api/orders');
   if (res.status === 401) {
     window.location.href = 'login.html';
     return;
   }
   const orders = await res.json();
+  if (seq !== requestSeq) return;
 
   const currentIds = new Set(orders.map((o) => o.id));
   if (knownOrderIds !== null) {
@@ -97,6 +106,14 @@ async function loadOrders() {
     if (newOnes.length > 0) alertNewOrders(newOnes);
   }
   knownOrderIds = currentIds;
+  lastOrders = orders;
+
+  // Hat sich inhaltlich nichts geändert, muss die Liste nicht neu gebaut
+  // werden - das würde sonst gerade offene Eingaben (z. B. eine Abholzeit)
+  // beim automatischen Aktualisieren alle 6 Sekunden unterbrechen.
+  const ordersJson = JSON.stringify(orders);
+  if (ordersJson === lastOrdersJson) return;
+  lastOrdersJson = ordersJson;
 
   render(orders);
 }
@@ -257,7 +274,7 @@ document.querySelectorAll('#filters button').forEach((btn) => {
     document.querySelectorAll('#filters button').forEach((b) => b.classList.remove('active'));
     btn.classList.add('active');
     filter = btn.dataset.f;
-    loadOrders();
+    render(lastOrders);
   };
 });
 
