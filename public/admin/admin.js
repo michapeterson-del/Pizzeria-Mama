@@ -102,6 +102,15 @@ async function loadOrders() {
 }
 
 function render(orders) {
+  // Während der Admin gerade eine Abholzeit auswählt, darf der Auto-Refresh
+  // die Liste (und damit das offene Eingabefeld) nicht unter der Hand
+  // neu aufbauen - sonst wird die Eingabe mittendrin abgebrochen,
+  // besonders beim langsameren Zeit-Picker auf dem Handy.
+  const active = document.activeElement;
+  if (active && active.classList && active.classList.contains('pickup-input')) {
+    return;
+  }
+
   const container = document.getElementById('orders');
   const filtered = orders.filter((o) => {
     if (filter === 'alle') return true;
