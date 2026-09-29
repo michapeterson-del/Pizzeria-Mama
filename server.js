@@ -8,8 +8,15 @@ const store = require('./data/store');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'pizzeria2024';
-const SESSION_SECRET = process.env.SESSION_SECRET || 'change-me-in-.env';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+const SESSION_SECRET = process.env.SESSION_SECRET || '';
+// Ohne eigenes Passwort und Secret startet der Server nicht: Standardwerte
+// stünden öffentlich im Code und jeder könnte sich als Admin anmelden.
+if (ADMIN_PASSWORD.length < 10 || ADMIN_PASSWORD.startsWith('bitte-') ||
+    SESSION_SECRET.length < 32 || SESSION_SECRET.startsWith('bitte-')) {
+  console.error('ADMIN_PASSWORD (mind. 10 Zeichen) und SESSION_SECRET (mind. 32 Zeichen) in .env bzw. beim Hoster setzen.');
+  process.exit(1);
+}
 const AUTH_COOKIE = 'admin_auth';
 const AUTH_MAX_AGE = 1000 * 60 * 60 * 24 * 30; // 30 Tage
 
@@ -23,7 +30,32 @@ menu.forEach((cat) =>
   })
 );
 
+app.set('trust proxy', 1); // echte Kunden-IP hinter Render & Co. (für die Sperren unten)
 app.use(express.json());
+
+// Einfache Sperre gegen Durchprobieren (Admin-Passwort, Bestell-Codes):
+// nach zu vielen Fehlversuchen pro IP für eine Weile keine weiteren Versuche.
+const failures = new Map();
+function tooManyFailures(key, max) {
+  const f = failures.get(key);
+  return !!f && f.count >= max && Date.now() < f.until;
+}
+function recordFailure(key, windowMs) {
+  const f = failures.get(key);
+  const expired = !f || Date.now() >= f.until;
+  failures.set(key, { count: expired ? 1 : f.count + 1, until: Date.now() + windowMs });
+  if (failures.size > 10000) failures.clear();
+}
+const LOOKUP_MAX = 10;
+const LOOKUP_WINDOW = 10 * 60 * 1000;
+const LOGIN_MAX = 5;
+const LOGIN_WINDOW = 15 * 60 * 1000;
+
+// Für Kunden sichtbare Felder einer Bestellung (ohne Name und Telefonnummer).
+function publicOrder(o) {
+  const { orderNumber, code, status, pickupTime, wishTime, items, total, createdAt } = o;
+  return { orderNumber, code, status, pickupTime, wishTime, items, total, createdAt };
+}
 
 // Anmeldung als signiertes Cookie statt Server-Sitzung: übersteht Neustarts
 // des Servers (z. B. bei jedem Deploy oder wenn der Free-Plan aus Inaktivität
@@ -120,11 +152,16 @@ app.get('/api/orders/lookup', (req, res) => {
   if (!orderNumber || !code) {
     return res.status(400).json({ error: 'Bestellnummer und Code erforderlich.' });
   }
+  const key = 'lookup:' + req.ip;
+  if (tooManyFailures(key, LOOKUP_MAX)) {
+    return res.status(429).json({ error: 'Zu viele Versuche. Bitte in 10 Minuten erneut versuchen.' });
+  }
   const order = store.findOrder(orderNumber, code);
   if (!order) {
+    recordFailure(key, LOOKUP_WINDOW);
     return res.status(404).json({ error: 'Bestellung nicht gefunden.' });
   }
-  res.json(order);
+  res.json(publicOrder(order));
 });
 
 app.post('/api/orders/cancel', (req, res) => {
@@ -132,8 +169,13 @@ app.post('/api/orders/cancel', (req, res) => {
   if (!orderNumber || !code) {
     return res.status(400).json({ error: 'Bestellnummer und Code erforderlich.' });
   }
+  const key = 'lookup:' + req.ip;
+  if (tooManyFailures(key, LOOKUP_MAX)) {
+    return res.status(429).json({ error: 'Zu viele Versuche. Bitte in 10 Minuten erneut versuchen.' });
+  }
   const order = store.findOrder(orderNumber, code);
   if (!order) {
+    recordFailure(key, LOOKUP_WINDOW);
     return res.status(404).json({ error: 'Bestellung nicht gefunden.' });
   }
   if (order.status !== 'neu' && order.status !== 'bestaetigt') {
@@ -142,7 +184,7 @@ app.post('/api/orders/cancel', (req, res) => {
     });
   }
   const updated = store.updateOrder(order.id, { status: 'storniert' });
-  res.json(updated);
+  res.json(publicOrder(updated));
 });
 
 // ---------- Admin auth ----------
@@ -154,8 +196,15 @@ function requireAuth(req, res, next) {
 }
 
 app.post('/admin/login', (req, res) => {
+  const key = 'login:' + req.ip;
+  if (tooManyFailures(key, LOGIN_MAX)) {
+    return res.status(429).json({ error: 'Zu viele Fehlversuche. Bitte in 15 Minuten erneut versuchen.' });
+  }
   const { password } = req.body || {};
-  if (password && password === ADMIN_PASSWORD) {
+  const given = crypto.createHash('sha256').update(String(password || '')).digest();
+  const expected = crypto.createHash('sha256').update(ADMIN_PASSWORD).digest();
+  if (password && crypto.timingSafeEqual(given, expected)) {
+    failures.delete(key);
     res.cookie(AUTH_COOKIE, createAuthToken(), {
       httpOnly: true,
       sameSite: 'lax',
@@ -163,6 +212,7 @@ app.post('/admin/login', (req, res) => {
     });
     return res.json({ ok: true });
   }
+  recordFailure(key, LOGIN_WINDOW);
   res.status(401).json({ error: 'Falsches Passwort.' });
 });
 
@@ -211,7 +261,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log(`Pizzeria Mama Bestellsystem läuft auf http://localhost:${PORT}`);
-  if (ADMIN_PASSWORD === 'pizzeria2024') {
-    console.log('WARNUNG: Bitte ADMIN_PASSWORD in .env setzen, bevor die Seite online geht!');
-  }
 });

@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
@@ -26,7 +27,7 @@ function save(data) {
 }
 
 function randomCode() {
-  return String(Math.floor(1000 + Math.random() * 9000));
+  return String(crypto.randomInt(1000, 10000));
 }
 
 function createOrder({ items, customerName, phone, note, wishTime }) {
